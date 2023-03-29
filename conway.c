@@ -83,7 +83,7 @@ int main(void)
         
 	int x;
 	int y;
-	int lebende;
+	char lebende;
 	unsigned int round = 0;
 
   t = clock ();
