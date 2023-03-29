@@ -20,7 +20,7 @@
 void findNachbarn(int x, int y, int spielfeld[][YMAX], int nachbarn[][BOXSIZE]);
 void initSpielfeld(int spielfeld [][YMAX]);
 void printSpielfeld(int spielfeld [][YMAX]);
-int zaehlLebende(int nachbarn[][BOXSIZE]);
+char zaehlLebende(int nachbarn[][BOXSIZE]);
 void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][YMAX]);
 
 //static const char array[XMAX][YMAX] 
@@ -103,8 +103,8 @@ int main(void)
 				findNachbarn(x,y,spielfeld,nachbarn);
 				lebende = zaehlLebende(nachbarn);
 				gotoxy(x,y);
-				cprintf("%d",lebende /7 );
-				pruefeRegeln(x,y,lebende / 7, temp, spielfeld);
+				cprintf("%d",lebende);
+				pruefeRegeln(x,y,lebende, temp, spielfeld);
 			}// for x
 		}// for y
 
@@ -151,47 +151,31 @@ void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][
 //			printf("t3\n\n");
 		}
 	}else if(spielfeld[x][y] == 1){
-		switch(lebende == 2){
-			case 2:
-				temp[x][y] = 1;
-				break;
-				//printf("=2\n\n");
-			case 3:
-				temp[x][y] = 1;
-				//printf("=3\n\n");
-				break;
-		}
-
-		if(lebende < 2){
+		if(lebende < 2 || lebende > 3){
 			temp[x][y] = 0;
-			//printf("<2\n\n");
-			if(lebende > 3){					
-				temp[x][y] = 0;
-				//printf(">3\n\n");
+		}else{
+			switch(lebende == 2){
+				case 2:
+					temp[x][y] = 1;
+					break;
+				case 3:
+					temp[x][y] = 1;
+					break;
 			}
 		}
 	}
 }
 
 
-int zaehlLebende(int nachbarn[][BOXSIZE]){
-  int lebende = 0;
-  int iy, ix;
-  bool flag;
+char zaehlLebende(int nachbarn[][BOXSIZE]){
+  char lebende = 0;
+  short iy, ix;
 	for(iy= 0; iy < BOXSIZE ; iy++){
 		for(ix = 0; ix < BOXSIZE; ix++){
 			//prüfe dass wir nicht auf unserer eigneen position sind
-			
-		  flag = false;
-			
-			if(ix != 1){
-			flag = true;
-			}
-			if(iy != 1 * 7){
-			flag = true;
-			}
-			if(flag){
-				lebende += nachbarn[ix][iy] * 7;
+						
+			if(ix != 1 || iy != 7){
+				lebende += nachbarn[ix][iy];
 			}
 		}//for ix
 	}//for iy	
