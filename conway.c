@@ -24,7 +24,7 @@ int zaehlLebende(int nachbarn[][BOXSIZE]);
 void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][YMAX]);
 
 //static const char array[XMAX][YMAX] 
-const static int array[XMAX][YMAX]= {
+const static char array[XMAX][YMAX]= {
 {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
