@@ -154,13 +154,8 @@ void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][
 		if(lebende < 2 || lebende > 3){
 			temp[x][y] = 0;
 		}else{
-			switch(lebende == 2){
-				case 2:
-					temp[x][y] = 1;
-					break;
-				case 3:
-					temp[x][y] = 1;
-					break;
+			if(lebende == 2 || lebende == 3){
+				temp[x][y] = 1;
 			}
 		}
 	}
@@ -190,7 +185,6 @@ void findNachbarn(int x, int y, int spielfeld[][YMAX], int nachbarn[][BOXSIZE]){
 	unsigned int osy, iy; 
 	signed int ofy;
 	signed int ofx;
-	long int temp;
 	
 	for(ofy = y-1, iy=0; ofy <= (signed int)y+1; ++ofy , ++iy){
 		for(ofx = x-1,ix = 0; ofx <= (signed int)x+1; ++ofx , ++ix){
@@ -214,8 +208,7 @@ void findNachbarn(int x, int y, int spielfeld[][YMAX], int nachbarn[][BOXSIZE]){
 				else {
 					osx = ofx;
 				}
-		  temp = spielfeld[osx][osy];
-			nachbarn[ix][iy] = temp;				
+			nachbarn[ix][iy] = spielfeld[osx][osy];				
 		}//for ofx
 	}//for ofy	
 
