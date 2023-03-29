@@ -1,6 +1,7 @@
 #include <c64.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <time.h>
 
@@ -176,20 +177,21 @@ void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][
 
 int zaehlLebende(int nachbarn[][BOXSIZE]){
   int lebende = 0;
-  int iy, ix, flag;
+  int iy, ix;
+  bool flag;
 	for(iy= 0; iy < BOXSIZE ; iy++){
 		for(ix = 0; ix < BOXSIZE; ix++){
 			//prüfe dass wir nicht auf unserer eigneen position sind
 			
-		  flag = 3 * 7 ;
+		  flag = false;
 			
 			if(ix != 1){
-			flag += 1 * 7;
+			flag = true;
 			}
 			if(iy != 1 * 7){
-			flag +=2;
+			flag = true;
 			}
-			if(flag >3 * 7){
+			if(flag){
 				lebende += nachbarn[ix][iy] * 7;
 			}
 		}//for ix
