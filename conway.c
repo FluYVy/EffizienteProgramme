@@ -1,7 +1,6 @@
 #include <c64.h>
 #include <conio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 #include <time.h>
 
@@ -17,11 +16,11 @@
 #define BOXSIZE 3
 #define ROUNDS 100
 
-void findNachbarn(int x, int y, char spielfeld[][YMAX], int nachbarn[][BOXSIZE]);
+void findNachbarn(int x, int y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]);
 void initSpielfeld(char spielfeld [][YMAX]);
 void printSpielfeld(char spielfeld [][YMAX]);
-char zaehlLebende(int nachbarn[][BOXSIZE]);
-void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], char spielfeld[][YMAX]);
+char zaehlLebende(char nachbarn[][BOXSIZE]);
+void pruefeRegeln(int x, int y,  int lebende, char temp[][YMAX], char spielfeld[][YMAX]);
 
 //static const char array[XMAX][YMAX] 
 const static char array[XMAX][YMAX]= {
@@ -68,8 +67,8 @@ const static char array[XMAX][YMAX]= {
 };
 
 static char spielfeld[XMAX][YMAX];
-static int temp[XMAX][YMAX];
-static int nachbarn[BOXSIZE][BOXSIZE];
+static char temp[XMAX][YMAX];
+static char nachbarn[BOXSIZE][BOXSIZE];
 
 int main(void)
 {
@@ -143,7 +142,7 @@ int main(void)
 
 
 
-void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], char spielfeld[][YMAX]){
+void pruefeRegeln(int x, int y,  int lebende, char temp[][YMAX], char spielfeld[][YMAX]){
 	//hier kommen meine regeln
 	if(spielfeld[x][y] == 0 ){
 		if(lebende == 3){
@@ -162,7 +161,7 @@ void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], char spielfeld[]
 }
 
 
-char zaehlLebende(int nachbarn[][BOXSIZE]){
+char zaehlLebende(char nachbarn[][BOXSIZE]){
   char lebende = 0;
   short iy, ix;
 	for(iy= 0; iy < BOXSIZE ; iy++){
@@ -179,7 +178,7 @@ char zaehlLebende(int nachbarn[][BOXSIZE]){
 
 
 
-void findNachbarn(int x, int y, char spielfeld[][YMAX], int nachbarn[][BOXSIZE]){
+void findNachbarn(int x, int y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]){
 	//gehe über alle nachbarn
 	unsigned int osx, ix;
 	unsigned int osy, iy; 
