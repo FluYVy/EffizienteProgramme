@@ -17,11 +17,11 @@
 #define BOXSIZE 3
 #define ROUNDS 100
 
-void findNachbarn(int x, int y, int spielfeld[][YMAX], int nachbarn[][BOXSIZE]);
-void initSpielfeld(int spielfeld [][YMAX]);
-void printSpielfeld(int spielfeld [][YMAX]);
+void findNachbarn(int x, int y, char spielfeld[][YMAX], int nachbarn[][BOXSIZE]);
+void initSpielfeld(char spielfeld [][YMAX]);
+void printSpielfeld(char spielfeld [][YMAX]);
 char zaehlLebende(int nachbarn[][BOXSIZE]);
-void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][YMAX]);
+void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], char spielfeld[][YMAX]);
 
 //static const char array[XMAX][YMAX] 
 const static char array[XMAX][YMAX]= {
@@ -67,7 +67,7 @@ const static char array[XMAX][YMAX]= {
 {0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
 };
 
-static int spielfeld[XMAX][YMAX];
+static char spielfeld[XMAX][YMAX];
 static int temp[XMAX][YMAX];
 static int nachbarn[BOXSIZE][BOXSIZE];
 
@@ -143,7 +143,7 @@ int main(void)
 
 
 
-void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], int spielfeld[][YMAX]){
+void pruefeRegeln(int x, int y,  int lebende, int temp[][YMAX], char spielfeld[][YMAX]){
 	//hier kommen meine regeln
 	if(spielfeld[x][y] == 0 ){
 		if(lebende == 3){
@@ -179,7 +179,7 @@ char zaehlLebende(int nachbarn[][BOXSIZE]){
 
 
 
-void findNachbarn(int x, int y, int spielfeld[][YMAX], int nachbarn[][BOXSIZE]){
+void findNachbarn(int x, int y, char spielfeld[][YMAX], int nachbarn[][BOXSIZE]){
 	//gehe über alle nachbarn
 	unsigned int osx, ix;
 	unsigned int osy, iy; 
@@ -217,7 +217,7 @@ void findNachbarn(int x, int y, int spielfeld[][YMAX], int nachbarn[][BOXSIZE]){
 
 
 
-void printSpielfeld(int spielfeld [][YMAX]){
+void printSpielfeld(char spielfeld [][YMAX]){
 	long int x,y;
 	for(y = 0; y< YMAX; y++){
 		for(x = 0; x< XMAX; x++){
@@ -229,8 +229,8 @@ void printSpielfeld(int spielfeld [][YMAX]){
 
 
 
-void initSpielfeld(int spielfeld [][YMAX]){
-	long int x,y;
+void initSpielfeld(char spielfeld [][YMAX]){
+	unsigned short x,y;
 	//fülle das feld mit zufallswerten und gibs aus
 	for(y = 0; y< YMAX; y++){
 		for(x = 0; x< XMAX; x++){
