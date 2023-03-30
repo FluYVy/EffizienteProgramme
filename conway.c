@@ -16,11 +16,11 @@
 #define BOXSIZE 3
 #define ROUNDS 100
 
-void findNachbarn(int x, int y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]);
+void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]);
 void initSpielfeld(char spielfeld [][YMAX]);
 void printSpielfeld(char spielfeld [][YMAX]);
 char zaehlLebende(char nachbarn[][BOXSIZE]);
-void pruefeRegeln(int x, int y,  int lebende, char temp[][YMAX], char spielfeld[][YMAX]);
+void pruefeRegeln(short x, unsigned char y,  unsigned char lebende, char temp[][YMAX], char spielfeld[][YMAX]);
 
 //static const char array[XMAX][YMAX] 
 const static char array[XMAX][YMAX]= {
@@ -80,10 +80,10 @@ int main(void)
   unsigned char background;
   unsigned char text;
         
-	int x;
-	int y;
+	short x;
+	unsigned char y;
 	char lebende;
-	unsigned int round = 0;
+	unsigned char round = 0;
 
   t = clock ();
 	initSpielfeld(spielfeld);
@@ -142,7 +142,7 @@ int main(void)
 
 
 
-void pruefeRegeln(int x, int y,  int lebende, char temp[][YMAX], char spielfeld[][YMAX]){
+void pruefeRegeln(short x, unsigned char y,  unsigned char lebende, char temp[][YMAX], char spielfeld[][YMAX]){
 	//hier kommen meine regeln
 	if(spielfeld[x][y] == 0 ){
 		if(lebende == 3){
@@ -178,15 +178,15 @@ char zaehlLebende(char nachbarn[][BOXSIZE]){
 
 
 
-void findNachbarn(int x, int y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]){
+void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]){
 	//gehe über alle nachbarn
-	unsigned int osx, ix;
-	unsigned int osy, iy; 
-	signed int ofy;
-	signed int ofx;
+	unsigned char osx, ix;
+	unsigned char osy, iy; 
+	signed short ofy;
+	signed short ofx;
 	
-	for(ofy = y-1, iy=0; ofy <= (signed int)y+1; ++ofy , ++iy){
-		for(ofx = x-1,ix = 0; ofx <= (signed int)x+1; ++ofx , ++ix){
+	for(ofy = y-1, iy=0; ofy <= (unsigned char)y+1; ++ofy , ++iy){
+		for(ofx = x-1,ix = 0; ofx <= (unsigned char)x+1; ++ofx , ++ix){
 	
 			if( ofy < 0)	{
 				osy = YMAX-1;
@@ -217,7 +217,7 @@ void findNachbarn(int x, int y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]
 
 
 void printSpielfeld(char spielfeld [][YMAX]){
-	long int x,y;
+	unsigned short x,y;
 	for(y = 0; y< YMAX; y++){
 		for(x = 0; x< XMAX; x++){
 			revers(spielfeld[x][y]);
