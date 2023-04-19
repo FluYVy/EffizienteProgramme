@@ -14,7 +14,7 @@
 #define XMAX 40
 #define YMAX 25
 #define BOXSIZE 3
-#define ROUNDS 100
+#define ROUNDS 1
 
 void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]);
 void initSpielfeld(char spielfeld [][YMAX]);
@@ -97,17 +97,13 @@ int main(void)
 	while(round < ROUNDS && !kbhit()){
 		for(y = 0; y< YMAX; y++){
 			for(x = 0; x< XMAX; x++){
-				//gotoxy(0,0);
-				//cprintf("%2d %2d",x , y);
 				findNachbarn(x,y,spielfeld,nachbarn);
 				lebende = zaehlLebende(nachbarn);
-				//gotoxy(x,y);
-				//cprintf("%d",lebende);
 				pruefeRegeln(x,y,lebende, temp, spielfeld);
 			}// for x
 		}// for y
 
-		memcpy(spielfeld,temp,XMAX*YMAX*2);
+		memcpy(spielfeld,temp,XMAX*YMAX);
 	
 		round++;
 		printSpielfeld(spielfeld);	
@@ -229,11 +225,5 @@ void printSpielfeld(char spielfeld [][YMAX]){
 
 
 void initSpielfeld(char spielfeld [][YMAX]){
-	unsigned short x,y;
-	//fülle das feld mit zufallswerten und gibs aus
-	for(y = 0; y< YMAX; y++){
-		for(x = 0; x< XMAX; x++){
-				spielfeld[x][y] = array[x][y];
-		}
-	}
+	memcpy(spielfeld, array, XMAX*YMAX);
 }
