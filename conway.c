@@ -138,22 +138,25 @@ void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][
 	//gehe über alle nachbarn
 	unsigned char osx;
 	unsigned char osy; 
-	signed short ofy;
-	signed short ofx;
+	unsigned char ofy;
+	unsigned char ofx;
 
 	// p(x/y) ist ein Punkt
 	
 	char lebende = 0;
 
+
+
 	for(ofy = y-1; ofy <= (unsigned char)y+1; ++ofy){
 		for(ofx = x-1; ofx <= (unsigned char)x+1; ++ofx){
 	
-			if( ofy < 0)	{
-				osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
-			}
-			else if( ofy > YMAX-1)	{
-					osy = 0;		//Wenn p in der letzten Zeile osy -> erste Zeile
+			if(ofy > YMAX-1)	{
+				if(ofy == 255){
+					osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
+				}else{
+					osy = 0;
 				}
+			}
 				else {
 					osy = ofy;		//Weder p in der ersten noch in der letzten: osy -> ofy
 				}
@@ -171,16 +174,19 @@ void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][
 		}//for ofx
 	}//for ofy	
 
+	lebende -= spielfeld[x][y];
+
+	//Geht besser
 	if(spielfeld[x][y] == 0 ){
 		if(lebende == 3){
 			temp[x][y] = 1;
 //			printf("t3\n\n");
 		}
-	}else if(spielfeld[x][y] == 1){
+	}else{
 		if(lebende < 2 || lebende > 3){
 			temp[x][y] = 0;
 		}else{
-				temp[x][y] = 1;
+			temp[x][y] = 1;
 		}
 	}
 }
