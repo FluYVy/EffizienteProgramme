@@ -16,11 +16,9 @@
 #define BOXSIZE 3
 #define ROUNDS 1
 
-void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]);
+void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE], char temp[][YMAX]);
 void initSpielfeld(char spielfeld [][YMAX]);
 void printSpielfeld(char spielfeld [][YMAX]);
-char zaehlLebende(char nachbarn[][BOXSIZE]);
-void pruefeRegeln(short x, unsigned char y,  unsigned char lebende, char temp[][YMAX], char spielfeld[][YMAX]);
 
 //static const char array[XMAX][YMAX] 
 const static char array[XMAX][YMAX]= {
@@ -97,9 +95,7 @@ int main(void)
 	while(round < ROUNDS && !kbhit()){
 		for(y = 0; y< YMAX; y++){
 			for(x = 0; x< XMAX; x++){
-				findNachbarn(x,y,spielfeld,nachbarn);
-				lebende = zaehlLebende(nachbarn);
-				pruefeRegeln(x,y,lebende, temp, spielfeld);
+				findNachbarn(x,y,spielfeld,nachbarn, temp);
 			}// for x
 		}// for y
 
@@ -138,60 +134,30 @@ int main(void)
 
 
 
-void pruefeRegeln(short x, unsigned char y,  unsigned char lebende, char temp[][YMAX], char spielfeld[][YMAX]){
-	//hier kommen meine regeln
-	if(spielfeld[x][y] == 0 ){
-		if(lebende == 3){
-			temp[x][y] = 1;
-//			printf("t3\n\n");
-		}
-	}else if(spielfeld[x][y] == 1){
-		if(lebende < 2 || lebende > 3){
-			temp[x][y] = 0;
-		}else{
-			if(lebende == 2 || lebende == 3){
-				temp[x][y] = 1;
-			}
-		}
-	}
-}
 
 
-char zaehlLebende(char nachbarn[][BOXSIZE]){
-  char lebende = 0;
-  short iy, ix;
-	for(iy= 0; iy < BOXSIZE ; iy++){
-		for(ix = 0; ix < BOXSIZE; ix++){
-			//prüfe dass wir nicht auf unserer eigneen position sind
-						
-			if(ix != 1 || iy != 7){
-				lebende += nachbarn[ix][iy];
-			}
-		}//for ix
-	}//for iy	
-	return lebende;
-}
-
-
-
-void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE]){
+void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE], char temp[][YMAX]){
 	//gehe über alle nachbarn
 	unsigned char osx, ix;
 	unsigned char osy, iy; 
 	signed short ofy;
 	signed short ofx;
+
+	// p(x/y) ist ein Punkt
 	
+	char lebende = 0;
+
 	for(ofy = y-1, iy=0; ofy <= (unsigned char)y+1; ++ofy , ++iy){
 		for(ofx = x-1,ix = 0; ofx <= (unsigned char)x+1; ++ofx , ++ix){
 	
 			if( ofy < 0)	{
-				osy = YMAX-1;
+				osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
 			}
 			else if( ofy > YMAX-1)	{
-					osy = 0;
+					osy = 0;		//Wenn p in der letzten Zeile osy -> erste Zeile
 				}
 				else {
-					osy = ofy;
+					osy = ofy;		//Weder p in der ersten noch in der letzten: osy -> ofy
 				}
 			
 			
@@ -203,10 +169,22 @@ void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char nachbar
 				else {
 					osx = ofx;
 				}
-			nachbarn[ix][iy] = spielfeld[osx][osy];				
+			lebende += spielfeld[osx][osy];				
 		}//for ofx
 	}//for ofy	
 
+	if(spielfeld[x][y] == 0 ){
+		if(lebende == 3){
+			temp[x][y] = 1;
+//			printf("t3\n\n");
+		}
+	}else if(spielfeld[x][y] == 1){
+		if(lebende < 2 || lebende > 3){
+			temp[x][y] = 0;
+		}else{
+				temp[x][y] = 1;
+		}
+	}
 }
 
 
@@ -225,5 +203,5 @@ void printSpielfeld(char spielfeld [][YMAX]){
 
 
 void initSpielfeld(char spielfeld [][YMAX]){
-	memcpy(spielfeld, array, XMAX*YMAX);
+	memcpy(spielfeld, array, XMAX*YMAX);	//Copy Data
 }
