@@ -16,7 +16,7 @@
 #define BOXSIZE 3
 #define ROUNDS 1
 
-void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]);
+void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE], char temp[][YMAX]);
 void initSpielfeld(char spielfeld [][YMAX]);
 void printSpielfeld(char spielfeld [][YMAX]);
 
@@ -66,6 +66,7 @@ const static char array[XMAX][YMAX]= {
 
 static char spielfeld[XMAX][YMAX];
 static char temp[XMAX][YMAX];
+static char nachbarn[BOXSIZE][BOXSIZE];
 
 int main(void)
 {
@@ -77,8 +78,9 @@ int main(void)
   unsigned char background;
   unsigned char text;
         
-	short x;
+	unsigned char x;
 	unsigned char y;
+	char lebende;
 	unsigned char round = 0;
 
   t = clock ();
@@ -93,7 +95,7 @@ int main(void)
 	while(round < ROUNDS && !kbhit()){
 		for(y = 0; y< YMAX; y++){
 			for(x = 0; x< XMAX; x++){
-				findNachbarn(x,y,spielfeld, temp);
+				findNachbarn(x,y,spielfeld,nachbarn, temp);
 			}// for x
 		}// for y
 
@@ -134,29 +136,26 @@ int main(void)
 
 
 
-void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]){
+void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE], char temp[][YMAX]){
 	//gehe über alle nachbarn
-	unsigned char osx;
-	unsigned char osy; 
-	unsigned char ofy;
-	unsigned char ofx;
+	unsigned char osx, ix;
+	unsigned char osy, iy; 
+	signed char ofy;
+	signed char ofx;
 
 	// p(x/y) ist ein Punkt
 	
 	char lebende = 0;
 
-
-
-	for(ofy = y-1; ofy <= (unsigned char)y+1; ++ofy){
-		for(ofx = x-1; ofx <= (unsigned char)x+1; ++ofx){
+	for(ofy = y-1, iy=0; ofy <= (unsigned char)y+1; ++ofy , ++iy){
+		for(ofx = x-1,ix = 0; ofx <= (unsigned char)x+1; ++ofx , ++ix){
 	
-			if(ofy > YMAX-1)	{
-				if(ofy == 255){
-					osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
-				}else{
-					osy = 0;
-				}
+			if( ofy < 0)	{
+				osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
 			}
+			else if( ofy > YMAX-1)	{
+					osy = 0;		//Wenn p in der letzten Zeile osy -> erste Zeile
+				}
 				else {
 					osy = ofy;		//Weder p in der ersten noch in der letzten: osy -> ofy
 				}
@@ -174,9 +173,6 @@ void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][
 		}//for ofx
 	}//for ofy	
 
-	lebende -= spielfeld[x][y];
-
-	//Geht besser
 	if(spielfeld[x][y] == 0 ){
 		if(lebende == 3){
 			temp[x][y] = 1;
@@ -186,7 +182,7 @@ void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][
 		if(lebende < 2 || lebende > 3){
 			temp[x][y] = 0;
 		}else{
-			temp[x][y] = 1;
+				temp[x][y] = 1;
 		}
 	}
 }
@@ -195,7 +191,7 @@ void findNachbarn(short x, unsigned char y, char spielfeld[][YMAX], char temp[][
 
 
 void printSpielfeld(char spielfeld [][YMAX]){
-	unsigned short x,y;
+	unsigned char x,y;
 	for(y = 0; y< YMAX; y++){
 		for(x = 0; x< XMAX; x++){
 			revers(spielfeld[x][y]);
