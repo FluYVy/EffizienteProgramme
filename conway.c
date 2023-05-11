@@ -137,8 +137,10 @@ int main(void)
 
 void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]){
 	//gehe über alle nachbarn
-	unsigned char osx, ix;
-	unsigned char osy, iy; 
+	unsigned char osx;
+	unsigned char ix;
+	unsigned char osy;
+	unsigned char iy; 
 	signed char ofy;
 	signed char ofx;
 
