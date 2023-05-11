@@ -16,7 +16,7 @@
 #define BOXSIZE 3
 #define ROUNDS 1
 
-void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE], char temp[][YMAX]);
+void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]);
 void initSpielfeld(char spielfeld [][YMAX]);
 void printSpielfeld(char spielfeld [][YMAX]);
 
@@ -66,7 +66,6 @@ const static char array[XMAX][YMAX]= {
 
 static char spielfeld[XMAX][YMAX];
 static char temp[XMAX][YMAX];
-static char nachbarn[BOXSIZE][BOXSIZE];
 
 int main(void)
 {
@@ -95,7 +94,7 @@ int main(void)
 	while(round < ROUNDS && !kbhit()){
 		for(y = 0; y< YMAX; y++){
 			for(x = 0; x< XMAX; x++){
-				findNachbarn(x,y,spielfeld,nachbarn, temp);
+				findNachbarn(x,y,spielfeld, temp);
 			}// for x
 		}// for y
 
@@ -136,7 +135,7 @@ int main(void)
 
 
 
-void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char nachbarn[][BOXSIZE], char temp[][YMAX]){
+void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]){
 	//gehe über alle nachbarn
 	unsigned char osx, ix;
 	unsigned char osy, iy; 
