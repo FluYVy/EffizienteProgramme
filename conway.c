@@ -13,15 +13,13 @@
 //HighRes Mode 300x200px
 #define XMAX 40
 #define YMAX 25
-#define BOXSIZE 3
 #define ROUNDS 1
 
-void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]);
-void initSpielfeld(char spielfeld [][YMAX]);
-void printSpielfeld(char spielfeld [][YMAX]);
+void findNachbarn(unsigned char x, unsigned char y, unsigned char spielfeld[][YMAX], unsigned char temp[][YMAX]);
+void printSpielfeld(unsigned char spielfeld [][YMAX]);
 
 //static const char array[XMAX][YMAX] 
-const static char array[XMAX][YMAX]= {
+static unsigned char spielfeld[XMAX][YMAX] = {
 {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -64,26 +62,24 @@ const static char array[XMAX][YMAX]= {
 {0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
 };
 
-static char spielfeld[XMAX][YMAX];
-static char temp[XMAX][YMAX];
+//static char spielfeld[XMAX][YMAX];
+static unsigned char temp[XMAX][YMAX];
 
 int main(void)
 {
   clock_t       t;
-  unsigned long sec;
+  unsigned short sec;
   unsigned      sec10;
-  unsigned long fps;
+  unsigned short fps;
   unsigned      fps10;
   unsigned char background;
   unsigned char text;
         
 	unsigned char x;
 	unsigned char y;
-	char lebende;
 	unsigned char round = 0;
 
   t = clock ();
-	initSpielfeld(spielfeld);
   clrscr();
 	background = bgcolor(COLOR_BLACK);
 	text = textcolor(COLOR_WHITE);
@@ -92,15 +88,15 @@ int main(void)
 
 
 	while(round < ROUNDS && !kbhit()){
-		for(y = 0; y< YMAX; y++){
-			for(x = 0; x< XMAX; x++){
+		for(y = 0; y< YMAX; ++y){
+			for(x = 0; x< XMAX; ++x){
 				findNachbarn(x,y,spielfeld, temp);
 			}// for x
 		}// for y
 
 		memcpy(spielfeld,temp,XMAX*YMAX);
 	
-		round++;
+		++round;
 		printSpielfeld(spielfeld);	
 	}
 		t = clock() - t;
@@ -119,9 +115,9 @@ int main(void)
     fps  /= 10;
 
     /* Output stats */
-    gotoxy (0, 0); cprintf ("time  : %lu.%us", sec, sec10);
-    gotoxy (0, 1); cprintf ("frames: %lu", round);
-    gotoxy (0, 2); cprintf ("fps   : %lu.%u", fps, fps10);
+    gotoxy (0, 0); cprintf ("time  : %u.%us", sec, sec10);
+    gotoxy (0, 1); cprintf ("frames: %u", round);
+    gotoxy (0, 2); cprintf ("fps   : %u.%u", fps, fps10);
 
     /* Wait for a key, then end */
     cputsxy (0, 4, "Press any key when done...");
@@ -135,7 +131,7 @@ int main(void)
 
 
 
-void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char temp[][YMAX]){
+void findNachbarn(unsigned char x, unsigned char y, unsigned char spielfeld[][YMAX], unsigned char temp[][YMAX]){
 	//gehe über alle nachbarn
 	unsigned char osx;
 	unsigned char ix;
@@ -146,10 +142,11 @@ void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char
 
 	// p(x/y) ist ein Punkt
 	
-	char lebende = 0;
+	unsigned char lebende = 0;
 
-	for(ofy = y-1, iy=0; ofy <= (unsigned char)y+1; ++ofy , ++iy){
-		for(ofx = x-1,ix = 0; ofx <= (unsigned char)x+1; ++ofx , ++ix){
+	
+	for(ofy = y-1, iy=0; ofy <= y+1; ++ofy , ++iy){
+		for(ofx = x-1,ix = 0; ofx <= x+1; ++ofx , ++ix){
 	
 			if( ofy < 0)	{
 				osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
@@ -180,10 +177,10 @@ void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char
 //			printf("t3\n\n");
 		}
 	}else{
-		if(lebende < 2 || lebende > 3){
+		if(lebende < 3 || lebende > 4){
 			temp[x][y] = 0;
 		}else{
-				temp[x][y] = 1;
+			temp[x][y] = 1;
 		}
 	}
 }
@@ -191,18 +188,12 @@ void findNachbarn(unsigned char x, unsigned char y, char spielfeld[][YMAX], char
 
 
 
-void printSpielfeld(char spielfeld [][YMAX]){
+void printSpielfeld(unsigned char spielfeld [][YMAX]){
 	unsigned char x,y;
-	for(y = 0; y< YMAX; y++){
-		for(x = 0; x< XMAX; x++){
+	for(y = 0; y< YMAX; ++y){
+		for(x = 0; x< XMAX; ++x){
 			revers(spielfeld[x][y]);
  			cputcxy (x, y, 32);
 		}
 	}
-}
-
-
-
-void initSpielfeld(char spielfeld [][YMAX]){
-	memcpy(spielfeld, array, XMAX*YMAX);	//Copy Data
 }
