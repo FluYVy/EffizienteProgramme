@@ -94,24 +94,38 @@ int main(void)
 			for(x = 0; x< XMAX; ++x){
 				char lebende = 0;
 
-			if( ofx < 1)	{
-				osx = XMAX-1;
-			} else if( ofx > XMAX)	{
-					osx = 0;
-				}
-				else {
-					osx = ofx-1;
-				}
-			lebende += spielfeld[osx][osy];				
-		}//for ofx
-	}//for ofy	
+		char yStart, xStart, yEnd, xEnd;
+
+		if(y == 0){
+			yStart = YMAX - 1;
+			yEnd = y + 1;
+		}else if(y == YMAX - 1){
+			yEnd = 0;
+			yStart = y - 1;
+		}else{
+			yStart = y - 1;
+			yEnd = y + 1;
+		}
+
+		if(x == 0){
+			xStart = XMAX - 1;
+			xEnd = x + 1;
+		}else if(x == XMAX - 1){
+			xEnd = 0;
+			xStart = x - 1;
+		}else{
+			xStart = x - 1;
+			xEnd = x + 1;
+		}
+
+		lebende = spielfeld[xStart][yStart] + spielfeld[x][yStart] + spielfeld[xEnd][yStart] + spielfeld[xStart][y] + spielfeld[xEnd][y] + spielfeld[xStart][yEnd] + spielfeld[x][yEnd] + spielfeld[xEnd][yEnd];
 
 	if(spielfeld[x][y] == 0 ){
 		if(lebende == 3){
 			temp[x][y] = 1;
 		}
 	}else{
-		if(lebende < 3 || lebende > 4){
+		if(lebende < 2 || lebende > 3){
 			temp[x][y] = 0;
 		}else{
 			temp[x][y] = 1;
