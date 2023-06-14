@@ -76,14 +76,17 @@ int main(void)
 	char y;
 	char round = 0;
 
+revers(1);
+
   t = clock ();
   clrscr();
 	background = bgcolor(COLOR_BLACK);
 	text = textcolor(COLOR_WHITE);
 	for(y = 0; y< YMAX; ++y){
 		for(x = 0; x< XMAX; ++x){
-			revers(spielfeld[x][y]);
+			if(spielfeld[x][y] == 1){
  			cputcxy (x, y, 32);
+			}
 		}
 	}
 //	signal (int sig, __sigfunc func);
@@ -137,10 +140,12 @@ int main(void)
 		memcpy(spielfeld,temp,XMAX*YMAX);
 	
 		++round;
+		clrscr();
 	for(y = 0; y< YMAX; ++y){
 		for(x = 0; x< XMAX; ++x){
-			revers(spielfeld[x][y]);
- 			cputcxy (x, y, 32);
+			if(spielfeld[x][y] == 1){
+ 				cputcxy (x, y, 32);
+			}
 		}
 	}
 	}
