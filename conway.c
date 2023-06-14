@@ -92,32 +92,8 @@ int main(void)
 	while(round < ROUNDS && !kbhit()){
 		for(y = 0; y< YMAX; ++y){
 			for(x = 0; x< XMAX; ++x){
-				//gehe über alle nachbarn
-	 char osx;
-	 char ix;
-	 char osy;
-	 char iy; 
-	 char ofy;
-	 char ofx;
+				char lebende = 0;
 
-	// p(x/y) ist ein Punkt
-	
-	char lebende = 0;
-
-	for(ofy = y, iy=0; ofy <= y+2; ++ofy , ++iy){
-		for(ofx = x,ix = 0; ofx <= x+2; ++ofx , ++ix){
-	
-			if( ofy < 1)	{
-				osy = YMAX-1;		//Wenn p in der ersten Zeile osy -> letzten Zeile
-			}
-			else if( ofy > YMAX)	{
-					osy = 0;		//Wenn p in der letzten Zeile osy -> erste Zeile
-				}
-				else {
-					osy = ofy-1;		//Weder p in der ersten noch in der letzten: osy -> ofy
-				}
-			
-			
 			if( ofx < 1)	{
 				osx = XMAX-1;
 			} else if( ofx > XMAX)	{
